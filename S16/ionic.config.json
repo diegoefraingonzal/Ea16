@@ -1,0 +1,7 @@
+{
+  "name": "S16",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
