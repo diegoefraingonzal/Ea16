@@ -1,20 +1,58 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title>Agenda escolar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="task-container">
+    <h2>Agrega una nueva tarea</h2>
+    <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+      <ion-item class="custom-item">
+        <ion-label position="floating">Título</ion-label>
+        <ion-input formControlName="title"></ion-input>
+      </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <ion-item class="custom-item">
+        <ion-label>Fecha de vencimiento</ion-label>
+        <ion-datetime formControlName="dueDate" presentation="date"></ion-datetime>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" color="success" [disabled]="taskForm.invalid">
+        Añadir Tarea
+      </ion-button>
+    </form>
+
+    <h3>Tareas</h3>
+
+    <ion-segment [(ngModel)]="filter">
+      <ion-segment-button value="all">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pending">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        <ion-label>Completadas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let task of getFilteredTasks(); let i = index">
+        <ion-item [class.completed]="task.done">
+          <ion-label>
+            <h2>{{ task.title }}</h2>
+            <p>Fecha límite: {{ task.dueDate }}</p>
+          </ion-label>
+          <ion-checkbox (ionChange)="toggleCompletion(i)" [checked]="task.done"></ion-checkbox>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteTask(i)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
   </div>
 </ion-content>
