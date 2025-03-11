@@ -39,16 +39,16 @@
 
     <ion-list>
       <ion-item-sliding *ngFor="let task of getFilteredTasks(); let i = index">
-        <ion-item [class.completed]="task.done">
+        <ion-item [class.completed]="task.completed">
           <ion-label>
             <h2>{{ task.title }}</h2>
             <p>Fecha límite: {{ task.dueDate }}</p>
           </ion-label>
-          <ion-checkbox (ionChange)="toggleCompletion(i)" [checked]="task.done"></ion-checkbox>
+          <ion-checkbox (ionChange)="toggleCompletion(task)" [checked]="task.completed"></ion-checkbox>
         </ion-item>
 
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="deleteTask(i)">
+          <ion-item-option color="danger" (click)="deleteTask(task.id)">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-item-option>
         </ion-item-options>
